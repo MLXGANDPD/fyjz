@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ 
+ 
+ <!--映射文件(映射器的全名：包名.类名)-->
+ <mapper namespace="fyjz.com.retailers.mapper.user.UserMapper">
+ 
+ 	<!-- 处理实体类属性和数据库字段不一致问题 -->
+ 	<resultMap type="fyjz.com.retailers.entity.User"  id="rm">
+ 			<result property="id" column="id"/>
+ 			<result property="userName" column="username"/>
+ 			<result property="password" column="password"/>
+ 			<result property="email" column="email"/>
+ 			<result property="gender" column="gender"/>
+ 			<result property="phone" column="phone"/>
+ 			<result property="createUser" column="create_user"/>
+ 			<result property="image" column="image"/>
+ 			<result property="createTime" column="create_time"/>
+ 			<result property="modifiedUser" column="modified_user"/>
+ 			<result property="modifiedTime" column="modified_time"/>
+ 	</resultMap>
+ 
+ 	<select id="findNumByName" parameterType="string" resultType="int">
+ 		select count(username) from t_user where username=#{name}; 
+ 	</select>
+ 	
+ 	<insert id="addUserMapper" parameterType="fyjz.com.retailers.entity.User">
+ 		insert into t_user 
+ 		(username,password,email,phone,create_user,create_time,modified_user,modified_time)   
+ 		values (#{userName},#{password},#{email},#{phone},#{createUser},now(),#{modifiedUser},now());
+ 	</insert>
+ 	
+ 	<select id="selectNumByNameAndPwd" resultMap="rm">
+ 		select * from t_user where username=#{name} and password=#{pwd};
+ 	</select>
+ 	
+ 	<update id="updateUserPwdById">
+ 		update t_user set password=#{newpwd} where id=#{uid};
+ 	</update>
+ </mapper>
+ 	
